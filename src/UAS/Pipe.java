@@ -13,7 +13,7 @@ public class Pipe extends GameElement implements Movable {
 
     @Override
     public void move() {
-        x -= 4; // Pipa bergerak ke kiri
+        x -= 4; 
     }
 
     public boolean isPassed() {

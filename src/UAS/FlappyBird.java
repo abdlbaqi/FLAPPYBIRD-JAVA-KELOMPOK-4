@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+
 import static javafx.application.Application.launch;
 
 public class FlappyBird extends Application {
@@ -36,11 +37,9 @@ public class FlappyBird extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Initialize canvas and graphics context
         canvas = new Canvas(BOARD_WIDTH, BOARD_HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
-        // Load images
         try {
             backgroundImg = new Image(getClass().getResourceAsStream("/uploads/flappybirdbg.png"));
             birdImg = new Image(getClass().getResourceAsStream("/uploads/flappybird.png"));
@@ -50,11 +49,9 @@ public class FlappyBird extends Application {
             System.err.println("Error loading images: " + e.getMessage());
         }
 
-        // Initialize game elements
         bird = new Bird(BOARD_WIDTH / 8, BOARD_HEIGHT / 2, 34, 24, birdImg);
         pipes = new ArrayList<>();
 
-        // Handle keyboard input
         canvas.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.UP) {
                 bird.fly();
@@ -65,7 +62,6 @@ public class FlappyBird extends Application {
         });
         canvas.setFocusTraversable(true);
 
-        // Create animation timer for game loop
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -77,7 +73,6 @@ public class FlappyBird extends Application {
         };
         gameLoop.start();
 
-        // Set up the game scene
         StackPane root = new StackPane();
         root.getChildren().add(canvas);
 
@@ -90,8 +85,10 @@ public class FlappyBird extends Application {
 
     private void placePipes() {
         int randomY = -PIPE_HEIGHT / 4 - (int) (Math.random() * (PIPE_HEIGHT / 2));
-        Pipe topPipe = new Pipe(BOARD_WIDTH, randomY, PIPE_WIDTH, PIPE_HEIGHT, topPipeImg);
-        Pipe bottomPipe = new Pipe(BOARD_WIDTH, randomY + PIPE_HEIGHT + PIPE_OPENING, PIPE_WIDTH, PIPE_HEIGHT, bottomPipeImg);
+        Pipe topPipe = new Pipe(BOARD_WIDTH, randomY, PIPE_WIDTH, 
+                PIPE_HEIGHT, topPipeImg);
+        Pipe bottomPipe = new Pipe(BOARD_WIDTH, randomY + PIPE_HEIGHT + PIPE_OPENING, 
+                PIPE_WIDTH, PIPE_HEIGHT, bottomPipeImg);
         pipes.add(topPipe);
         pipes.add(bottomPipe);
     }
@@ -99,7 +96,6 @@ public class FlappyBird extends Application {
     private void move() {
         bird.move();
 
-        // Move and check pipes
         for (Pipe pipe : pipes) {
             pipe.move();
 
@@ -119,7 +115,6 @@ public class FlappyBird extends Application {
             gameOver = true;
         }
 
-        // Add pipes periodically (every 2 seconds)
         if (System.currentTimeMillis() % 1500 < 10) {
             placePipes();
         }
@@ -137,7 +132,6 @@ public class FlappyBird extends Application {
         gc.setFill(javafx.scene.paint.Color.WHITE);
         gc.fillText(gameOver ? "Game Over: " + (int) score : String.valueOf((int) score), 10, 35);
     }
-
     private void restartGame() {
         bird = new Bird(BOARD_WIDTH / 8, BOARD_HEIGHT / 2, 34, 24, birdImg);
         pipes.clear();

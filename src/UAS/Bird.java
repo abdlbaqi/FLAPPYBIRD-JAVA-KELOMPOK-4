@@ -5,44 +5,43 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Bird extends GameElement implements Movable {
     private int velocityY;
-    private int velocityX;  // Kecepatan horizontal burung
+    private int velocityX;  
     private static final int GRAVITY = 1;
 
-    // Konstruktor untuk inisialisasi burung
+ 
     public Bird(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
         this.velocityY = -10;
-        this.velocityX = 5;  // Kecepatan awal burung ke kanan
+        this.velocityX = 5;  
     }
 
     @Override
     public void move() {
-        // Perhitungan gravitasi vertikal
+  
         velocityY += GRAVITY;
         y += velocityY;
 
-        // Batasi agar burung tidak keluar dari atas
+      
         y = Math.max(y, 0);
 
-        // Pergerakan horizontal burung ke kanan dengan perlambatan
+
         if (velocityX > 0) {
-            velocityX -= 1;  // Perlambat burung dengan mengurangi velocityX
+            velocityX -= 1;  
         }
-        x += velocityX;  // Gerakan horizontal
+        x += velocityX;  
 
-        // Batasi agar burung tidak keluar dari batas kanan layar
+
         if (x + width > 360) {
-            x = 360 - width;  // Batasi posisi horizontal burung
+            x = 360 - width; 
         }
     }
 
-    // Fungsi untuk membuat burung terbang ke atas
+
     public void fly() {
-        velocityY = -9;  // Gerakkan burung ke atas
-    }
+        velocityY = -9;  
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.drawImage(img, x, y, width, height);  // Gambar burung pada posisi x, y
+        gc.drawImage(img, x, y, width, height);  
     }
 }
