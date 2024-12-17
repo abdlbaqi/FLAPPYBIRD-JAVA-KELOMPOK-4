@@ -8,7 +8,6 @@ public class Bird extends GameElement implements Movable {
     private int velocityX;  
     private static final int GRAVITY = 1;
 
- 
     public Bird(int x, int y, int width, int height, Image img) {
         super(x, y, width, height, img);
         this.velocityY = -10;
@@ -17,28 +16,23 @@ public class Bird extends GameElement implements Movable {
 
     @Override
     public void move() {
-  
         velocityY += GRAVITY;
         y += velocityY;
-
-      
         y = Math.max(y, 0);
-
 
         if (velocityX > 0) {
             velocityX -= 1;  
         }
-        x += velocityX;  
-
+        x += velocityX;
 
         if (x + width > 360) {
             x = 360 - width; 
         }
     }
 
-
     public void fly() {
         velocityY = -9;  
+    }
 
     @Override
     public void draw(GraphicsContext gc) {
